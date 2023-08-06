@@ -1,3 +1,4 @@
 .deps/
 artifacts/
 work/
+node_modules/
