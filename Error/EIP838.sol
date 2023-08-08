@@ -3,8 +3,8 @@ pragma solidity ^0.8.10;
 
 // https://github.com/ethereum/EIPs/issues/838
 /**
-    * bytes4(keccak256(Error(string))) : 0x08c379a0 + abi.encode(string type of error msg)
-    * bytes4(keccak256(Error(RevertCase2(uint256))) : 0xe97c80a4 + abi.encode(custome Error`s params)
+ *  bytes4(keccak256(Error(string))) : 0x08c379a0 + abi.encode(string type of error msg)
+ *  bytes4(keccak256(Error(RevertCase2(uint256))) : 0xe97c80a4 + abi.encode(custome Error`s params)
 */
 contract SourceContract {
 
