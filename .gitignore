@@ -1,4 +1,6 @@
 .deps/
 artifacts/
+cache/
 work/
 node_modules/
+.env
