@@ -3,11 +3,12 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
 import "@openzeppelin/contracts/interfaces/IERC1271.sol";
 
-contract ERC1271 is IERC1271 {
+// contract ERC1271 is IERC1271 {
+contract ERC1271 {
     address private _owner;
 
-    constructor(address owner) {
-        _owner = owner;
+    constructor(address a) {
+        _owner = a;
     }
 
     function owner() public view returns(address) {
@@ -17,14 +18,15 @@ contract ERC1271 is IERC1271 {
     function isValidSignature(bytes32 hash, bytes memory signature)
             external
             view
-            returns (bytes4 magicValue)
+            returns (bool)
         {
             bool isValid = SignatureChecker.isValidSignatureNow(owner(), hash, signature);
 
-            if (isValid) {
-                return IERC1271.isValidSignature.selector;
-            }
+            return isValid;
+            // if (isValid) {
+            //     return IERC1271.isValidSignature.selector;
+            // }
 
-            return "";
+            // return "";
         }
 }
