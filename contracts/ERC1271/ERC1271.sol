@@ -18,15 +18,14 @@ contract ERC1271 {
     function isValidSignature(bytes32 hash, bytes memory signature)
             external
             view
-            returns (bool)
+            returns (bytes4 magicValue)
         {
             bool isValid = SignatureChecker.isValidSignatureNow(owner(), hash, signature);
 
-            return isValid;
-            // if (isValid) {
-            //     return IERC1271.isValidSignature.selector;
-            // }
+            if (isValid) {
+                return IERC1271.isValidSignature.selector;
+            }
 
-            // return "";
+            return "";
         }
 }
