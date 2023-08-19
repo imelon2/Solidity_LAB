@@ -42,7 +42,7 @@ contract ERC6551Registry is IERC6551Registry {
 
         return _account;
     }
-
+ 
     function account(
         address implementation,
         uint256 chainId,
