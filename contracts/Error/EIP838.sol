@@ -17,11 +17,11 @@ contract ExcuteContract {
         implement = _implement;
     }
 
-    function excute(bytes memory data) public returns(bytes memory result,bool success) {
+    function execute(bytes memory data) public returns(bytes memory result,bool success) {
         // test if accept can accept requests
         (success, result) = implement.call(data);
         a = result;
-        // if(!success) revert ExternalError(result);
+        if(!success) revert ExternalError(result);
     }
 
 }

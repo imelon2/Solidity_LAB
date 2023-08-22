@@ -19,11 +19,13 @@ async function main() {
     
     // Revert tx와 Success tx 구분 물어보기
     try {
-        const tx = await ExcuteContract.excute(case1);
+        const tx = await ExcuteContract.execute(case1,{gasLimit:1000000});
         await tx.wait();
         console.log("SUCCESS");
     } catch (error:any) {
-        // console.log(JSON.stringify(error))
+        // console.log(error);
+        
+        // console.log(JSON.stringify(error),null,4)
         console.log("FAIL");
     }
 
