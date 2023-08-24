@@ -23,14 +23,18 @@ async function main() {
         await tx.wait();
         console.log("SUCCESS");
     } catch (error:any) {
-        // console.log(error);
-        
-        // console.log(JSON.stringify(error),null,4)
         console.log("FAIL");
+        /** ---------- PARSING ERROR ---------- */
+        const tx = await provider.getTransaction(error.transactionHash)
+        const code = await provider.call({
+            data: tx.data,
+            to: tx.to,
+          });
+        const IRevertContract = new ethers.utils.Interface(ExcuteABI.abi);
+        const decode = IRevertContract.parseError(code)
+        console.log(decode.args[0]) // ERROR MSG
+        /** ----------------------------------- */
     }
-
-    const result = await ExcuteContract.a();
-    console.log(result);
     
 }
 
