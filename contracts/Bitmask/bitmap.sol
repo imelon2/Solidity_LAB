@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.20;
+pragma solidity 0.8.^20;
 
 /**
  * @title Bitmap을 활용한 데이터 레이아웃 최적화
