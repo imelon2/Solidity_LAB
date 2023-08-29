@@ -4,7 +4,10 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 contract MinimalProxy {
-    address constant logicContract = "0xbebebebebebebebebebebebebebebebebebebebe";
+    address immutable logicContract;
+    constructor(address _logicContract) {
+        logicContract = _logicContract;
+    }
 
     function delegate() external returns (bytes memory) {
         (bool success, bytes memory data) = logicContract.delegatecall(msg.data);

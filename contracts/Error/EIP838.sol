@@ -17,7 +17,8 @@ contract ExcuteContract {
         implement = _implement;
     }
 
-    function execute(bytes memory data) public returns(bytes memory result,bool success) {
+    function execute(bytes memory data, bool _revert) public returns(bytes memory result,bool success) {
+        require(_revert,"Error execute");
         // test if accept can accept requests
         (success, result) = implement.call(data);
         a = result;
@@ -29,6 +30,7 @@ contract ExcuteContract {
 contract ErrorContract {
 
     error RevertCase2(uint256,string);
+    error RevertCase3(uint256,string);
     
     uint256 num;
     function ping(uint _case) public {
