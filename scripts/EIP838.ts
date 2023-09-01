@@ -1,17 +1,14 @@
-import {Transaction, errors, ethers} from 'ethers';
+import {ethers} from 'ethers';
 import "dotenv/config";
-import { AbiCoder } from 'ethers/lib/utils';
+import { decodeRevert, decodeCustomRevert, IS_REVERT, IS_CUSTOM_REVERT } from '../libs/parseRevert.lib';
 
 const ExcuteABI =  require("../artifacts/contracts/Error/EIP838.sol/ExcuteContract.json");
 const ErrorABI = require("../artifacts/contracts/Error/EIP838.sol/ErrorContract.json");
 
 async function main() {
-    const abiCoder = new AbiCoder()
     const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER!);
     const admin = new ethers.Wallet(process.env.ADMIN_KEY!,provider);
     const user = new ethers.Wallet(process.env.USER_KEY!,provider);
-    console.log(`Balance : ${await user.getBalance()}`);
-    
     const ExcuteFactory = new ethers.ContractFactory(ExcuteABI.abi,ExcuteABI.bytecode,admin);
     const ErrorFactory = new ethers.ContractFactory(ErrorABI.abi,ErrorABI.bytecode,admin);
     const ErrorContract = await ErrorFactory.deploy();
@@ -24,44 +21,40 @@ async function main() {
     
     // Revert tx와 Success tx 구분 물어보기
     try {
-        const _tx = await ExcuteContract.connect(user).execute(case2,true,{gasLimit:21800});
-        const tx = await _tx.wait();
-        console.log(tx);
-        
+        const _tx = await ExcuteContract.connect(admin).execute(case1,true,{gasLimit:21800000});
+        await _tx.wait();
         console.log("SUCCESS");
     } catch (error: any) {
-        // console.log(error);
-        /** ---------- PARSING ERROR ---------- */
-        console.log(error.error.data.data);
-        console.log(error.error.data.message);
-        
-        // const tx = error.transaction;
-        // // const code = error.error.data.data;
-        // // console.log(tx);
-        // const tx = await provider.getTransaction(error.transactionHash)
-        // const code = await provider.call({
-        //     data: tx.data,
-        //     to: tx.to,
-        //   });
+        /** ---------- SYSTEM ERROR MESSAGE----------  */
+        const {data} : {data:string} = error.error.data;
+        if(!data || data === '0x') {
+            console.log(error);
+            return error;
 
-        // console.log(code);
-        // const decode = abiCoder.decode(["bytes"],"0x" + code.replace('0xea7e1b0b',""))
-        // console.log(decode[0]) // ERROR MSG
-        // const decode1 = abiCoder.decode(["string"],"0x" + decode[0].replace('0x08c379a0',""))
-        // console.log(decode1[0]) // ERROR MSG
-        // const IExcuteContract = new ethers.utils.Interface(ExcuteABI.abi);
-        // // const IErrorContract = new ethers.utils.Interface(ErrorABI.abi);
-        // const decode = IExcuteContract.decodeErrorResult("Error(string)",code)
-        // const decode = IExcuteContract.decodeErrorResult('Error(string)',code)
-        // console.log(decode) // ERROR MSG
-        // const decodeCustom = IErrorContract.decodeErrorResult('RevertCase2',decode.args[0])
-        // console.log(decodeCustom) // CUSTOM ERROR MSG
-        /** ----------------------------------- */
+        /** ---------- EIP838 ERROR MESSAGE----------  */
+        } else {
+            // CONTRACT ERROR
+            if(IS_REVERT(data)) {
+                const errorMsg = decodeRevert(data);
+                console.log(errorMsg[0]);
+                return errorMsg;
 
-        // console.log(IErrorContract.errors);
-        
+            // INTERNAL TRANSACTION ERROR
+            } else if (IS_CUSTOM_REVERT(data,"0xea7e1b0b")) {
+                const _errorMsg = decodeCustomRevert(data,ExcuteABI.abi)
+                if(!IS_REVERT(_errorMsg[0])) {
+                    const errorMsg = decodeCustomRevert(_errorMsg[0],ErrorABI.abi);
+                    console.log(errorMsg);
+                    return;
+                }
+                const errorMsg = decodeRevert(_errorMsg[0]);
+                console.log(errorMsg);
+            } else {
+                console.log(error);
+                return error;
+            }
+        }
     }
-    
 }
 
 main();

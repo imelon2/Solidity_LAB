@@ -5,6 +5,7 @@ pragma solidity ^0.8.10;
 /**
  *  bytes4(keccak256(Error(string))) : 0x08c379a0 + abi.encode(string type of error msg)
  *  bytes4(keccak256(Error(RevertCase2(uint256,string))) : 0xe9f07632 + abi.encode(custome Error`s params1,params2)
+ *  bytes4(keccak256(ExternalError(bytes)) : 0xea7e1b0b + abi.encode(bytes)
 */
 contract ExcuteContract {
 

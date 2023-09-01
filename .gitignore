@@ -1,7 +1,7 @@
 .deps/
 artifacts/
 cache/
-work/
+contracts/work
 node_modules/
 .env
 package-lock.json
