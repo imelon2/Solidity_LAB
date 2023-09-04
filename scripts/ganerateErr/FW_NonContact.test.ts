@@ -35,7 +35,7 @@ async function fwCreateOrder() {
     const walletSigner = walletForwarder.connect(provider);
     //2770 data 생성
     const req = await sigMaker.forwardData(walletShipper.address, CA.OrderCA, createData)
-    req.nonce =+ 1; // 📌
+    // req.nonce =+ 1; // 📌
 
 
     //2770 data를 위임서비스이용자(원 Msg.sender)가 서명
@@ -48,8 +48,8 @@ async function fwSelectOrder(_orderId: number, reward: BigNumber) {
     let orderId: number = _orderId
     const orderData = await sigMaker.matchingData(orderId, walletCarrier.address, reward); // 캐리어의 주문 서명
     const permitDataCarrier = await sigMaker.permitCarrierData(orderId, walletCarrier.address); // 캐리어의 담보 서명
-    const permitDataShipper = await sigMaker.permitShipperData(orderId, walletShipper.address, reward); // 화주의 보상 서명
-    // const permitDataShipper = await sigMaker.permitShipperData(orderId, walletShipper.address, reward.add(1)); // 화주의 보상 서명 📌
+    // const permitDataShipper = await sigMaker.permitShipperData(orderId, walletShipper.address, reward); // 화주의 보상 서명
+    const permitDataShipper = await sigMaker.permitShipperData(orderId, walletShipper.address, reward.add(1)); // 화주의 보상 서명 📌
 
     const selectData0 = await orderContract.selectOrder(
         orderId,
@@ -154,7 +154,6 @@ const Lodis_Parse_Revert = (error) => {
     /** ---------- SYSTEM ERROR MESSAGE----------  */
     const { data }: { data: string } = error.error.data;
     if (!data || data === '0x') {
-        console.log(error);
         return error;
 
     /** ---------- EIP838 ERROR MESSAGE----------  */
@@ -181,7 +180,6 @@ const Lodis_Parse_Revert = (error) => {
         await fwSelectOrder(orderId, ethers.utils.parseEther('1000'))
     } catch (error) {
         const result = Lodis_Parse_Revert(error);
-        console.log(result);
-        
+        console.log(result);    
     }
 })()
