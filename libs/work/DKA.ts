@@ -43,7 +43,7 @@ export class DKAlibs {
         return rawdata;
     }
 
-    async transferFrom(sender:string, receiver: string, value: number): Promise<any> {
+    async transferFrom(sender:string, receiver: string, value: number|string): Promise<any> {
         const rawdata = await this.interface.encodeFunctionData(
             'transferFrom',
             [sender, receiver, value],

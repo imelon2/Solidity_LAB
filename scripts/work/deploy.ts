@@ -43,7 +43,7 @@ async function main() {
     /** --------------------- fxDKA 배포 파트 ---------------------*/    
     const DKA = new ethers.ContractFactory(abi,bytecode,admin);
     const dka = await DKA.connect(admin).deploy(TxForwarderCA,OrderRulesCA);
-    await dka.connect(admin).transfer(shipper.address,ethers.utils.parseEther('20000'))
+    // await dka.connect(admin).transfer(shipper.address,ethers.utils.parseEther('20000'))
     await dka.connect(admin).transfer(carrier.address,ethers.utils.parseEther('20000'))
     console.log(`DKA Contract : ${dka.address}`)
     console.log('DKA 잔금 확인 ....');
