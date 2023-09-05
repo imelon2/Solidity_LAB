@@ -1,19 +1,19 @@
-import { Orderlibs } from "../../libs/work/Order";
-import { dataGenerator } from "../../libs/work/dataGenerator";
-import { TxForwarderLibs } from "../../libs/work/TxForwarder";
-import { DKAlibs } from "../../libs/work/DKA";
+import { Orderlibs } from "../../../libs/work/Order";
+import { dataGenerator } from "../../../libs/work/dataGenerator";
+import { TxForwarderLibs } from "../../../libs/work/TxForwarder";
+import { DKAlibs } from "../../../libs/work/DKA";
 import { BigNumber, ethers } from "ethers";
-import * as format from "../../libs/work/typedData";
-import CA from "../../contracts.json";
+import * as format from "../../../libs/work/typedData";
+import CA from "../../../contracts.json";
 import "dotenv/config";
 import {
   IS_REVERT,
   decodeRevert,
   IS_CUSTOM_REVERT,
   decodeCustomRevert,
-} from "../../libs/parseRevert.lib";
-import TxForwarder from "../../artifacts/contracts/work/TxForwarder.sol/TxForwarder.json";
-import DKA_ from "../../artifacts/contracts/work/DKA.sol/DKA.json";
+} from "../../../libs/parseRevert.lib";
+import TxForwarder from "../../../artifacts/contracts/work/TxForwarder.sol/TxForwarder.json";
+import DKA_ from "../../../artifacts/contracts/work/DKA.sol/DKA.json";
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
 const sigMaker = new dataGenerator(provider);
