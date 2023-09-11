@@ -80,8 +80,8 @@ const setPlatformFee = async(platformFee:string|BigNumber) => {
     .catch(res => console.error("ERR OrderRules.setPlatformFee : " + res.reason));
 }
 
-const set = async(data:BigNumber) => {
-    await OrderRules.setPlatformFee(data,admin)
+const set = async(data:string) => {
+    await OrderRules.setOrderAddress(data,admin)
     .then(res => {
         console.log(res);
     })
@@ -100,5 +100,8 @@ const set = async(data:BigNumber) => {
     // await getTimeExpiredDeliveryFault();
     // await getTimeExpiredWaitMatching();
     // await owner();
-    await set(ethers.utils.parseEther("10"));
+
+    // await set('0x0000000000000000000000000000000000000000');
+    // await set('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4');
+    await set('0x78731D3Ca6b7E34aC0F824c42a7cC18A495cabaB');
 })()
