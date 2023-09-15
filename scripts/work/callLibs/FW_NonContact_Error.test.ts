@@ -12,7 +12,6 @@ import {
   IS_CUSTOM_REVERT,
   decodeCustomRevert,
 } from "../../../libs/parseRevert.lib";
-import TxForwarder from "../../../artifacts/contracts/work/TxForwarder.sol/TxForwarder.json";
 import DKA_ from "../../../artifacts/contracts/work/DKA.sol/DKA.json";
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.PROVIDER);
@@ -59,14 +58,6 @@ async function fwCreateOrder() {
 async function fwSelectOrder(_orderId: number, reward: BigNumber) {
   let _DKA = new ethers.Contract(CA.DKA, DKA_.abi,provider);
 
-//   console.log(`carrier receive ${ethers.utils.parseEther("300")} dka `);
-  console.log(`Shipper receive ${ethers.utils.parseEther("100")} dka `);
-  await _DKA
-    .connect(walletForwarder)
-    .transfer(
-      walletShipper.address,
-      ethers.utils.parseEther("100")
-    );
         
   let orderId: number = _orderId;
   const orderData = await sigMaker.matchingData(
@@ -80,16 +71,16 @@ async function fwSelectOrder(_orderId: number, reward: BigNumber) {
     walletCarrier.address
   ); // 캐리어의 담보 서명
 
-  const permitDataShipper = await sigMaker.permitShipperData(
-    orderId,
-    walletShipper.address,
-    reward
-  ); // 화주의 보상 서명
-  //   const permitDataShipper = await sigMaker.permitShipperData(
-  //     orderId,
-  //     walletShipper.address,
-  //     reward.add(1)
-  //   ); // 화주의 보상 서명 📌
+  // const permitDataShipper = await sigMaker.permitShipperData(
+  //   orderId,
+  //   walletShipper.address,
+  //   reward
+  // ); // 화주의 보상 서명
+    const permitDataShipper = await sigMaker.permitShipperData(
+      orderId,
+      walletShipper.address,
+      reward.add(1)
+    ); // 화주의 보상 서명 📌
 
   console.log(`carrier send ${ethers.utils.parseEther("2")} dka `);
   await _DKA
@@ -296,7 +287,19 @@ const Lodis_Parse_Revert = (error) => {
       return errorMsg;
       // INTERNAL TRANSACTION ERROR
     } else if (IS_CUSTOM_REVERT(data, "ExternalError(bytes)")) {
-      const _errorMsg = decodeCustomRevert(data, TxForwarder.abi);
+      const _errorMsg = decodeCustomRevert(data, [
+        {
+          "inputs": [
+            {
+              "internalType": "bytes",
+              "name": "",
+              "type": "bytes"
+            }
+          ],
+          "name": "ExternalError",
+          "type": "error"
+        }
+      ]);
       const errorMsg = decodeRevert(_errorMsg[0]);
       return errorMsg;
     } else {
