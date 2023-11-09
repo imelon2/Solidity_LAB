@@ -2,6 +2,7 @@
 artifacts/
 cache/
 contracts/work
+work
 node_modules/
 .env
 package-lock.json
