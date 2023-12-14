@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: CC0-1.0
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.10;
 
 // As per ERC-1271
 interface IERC1271Wallet {
