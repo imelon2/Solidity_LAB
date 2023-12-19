@@ -29,13 +29,13 @@ contract mloadBytes {
         return result;
     }
 
-    function asem_mload(bytes memory a) pure public returns(bytes32) {
-        bytes32 result;
-        assembly {
-            result := mload(a)
-        }
+    function asem_mload(bytes memory a,bytes memory b,bytes memory c) pure public returns(bytes32) {
+        // bytes32 result;
+        // assembly {
+        //     result := mload(b)
+        // }
 
-        return result;
+        // return result;
     }
 
     function asem_mload1(bytes32 a) pure public returns(bytes32) {
@@ -56,6 +56,11 @@ contract mloadBytes {
     }
 
     function mload(bytes memory a) pure public returns(bytes memory) {
-        return a;
+        bytes memory result;
+        assembly {
+            result := mload(a)
+        }
+
+        return result;
     }
 }
