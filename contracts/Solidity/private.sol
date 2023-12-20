@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
 abstract contract Parent {
     bytes32 private immutable _hashedName;
@@ -20,11 +20,11 @@ abstract contract Parent {
     }
 }
 
-contract Child is Parent{
-    bytes32 public immutable _hashedName;
-    bytes32 public immutable _hashedVersion;
+// contract Child is Parent{
+//     bytes32 public immutable _hashedName;
+//     bytes32 public immutable _hashedVersion;
     
-    constructor() Parent("Escrow","1") {
+//     constructor() Parent("Escrow","1") {
 
-    }
-}
+//     }
+// }
