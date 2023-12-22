@@ -21,7 +21,8 @@ contract MinimalProxy {
 contract LogicContract {
     string public message;
     
-    function setMsg(string calldata newMsg) public {
+    function setMsg(string calldata newMsg,bool _is) public {
+        require(_is,"ERROR");
         message = newMsg;
     }
 }
