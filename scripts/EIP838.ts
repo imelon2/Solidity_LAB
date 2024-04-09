@@ -21,7 +21,7 @@ async function main() {
     
     // Revert tx와 Success tx 구분 물어보기
     try {
-        const _tx = await ExcuteContract.connect(admin).execute(case1,true,{gasLimit:21800000});
+        const _tx = await ExcuteContract.connect(admin).execute(case3,true,{gasLimit:21800000});
         await _tx.wait();
         console.log("SUCCESS");
     } catch (error: any) {
@@ -35,16 +35,18 @@ async function main() {
         } else {
             // CONTRACT ERROR
             if(IS_REVERT(data)) {
+                
                 const errorMsg = decodeRevert(data);
                 console.log(errorMsg[0]);
                 return errorMsg;
-
-            // INTERNAL TRANSACTION ERROR
+                
+                // INTERNAL TRANSACTION ERROR
             } else if (IS_CUSTOM_REVERT(data,"0xea7e1b0b")) {
                 const _errorMsg = decodeCustomRevert(data,ExcuteABI.abi)
-                if(!IS_REVERT(_errorMsg[0])) {
-                    const errorMsg = decodeCustomRevert(_errorMsg[0],ErrorABI.abi);
-                    console.log(errorMsg);
+                if(!IS_REVERT(_errorMsg.args[0])) {
+                    const errorMsg = decodeCustomRevert(_errorMsg.args[0],ErrorABI.abi);
+                    console.log(errorMsg.signature);
+                    console.log(JSON.stringify(errorMsg.args));
                     return;
                 }
                 const errorMsg = decodeRevert(_errorMsg[0]);

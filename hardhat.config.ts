@@ -10,8 +10,8 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    local: {
-      url: "http://127.0.0.1:8545/"
+    hardhat: {
+      chainId:1337
     },
     // mumbai: {
     //   url:`https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,

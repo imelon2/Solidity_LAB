@@ -13,4 +13,8 @@ contract convert {
     function concatSig(uint8 v, bytes32 r, bytes32 s) public pure returns(bytes memory signature) {
         return abi.encodePacked(r,s,v);
     }
+
+    function zeroPadding(bytes4 _msg) public pure returns(bytes32) {
+        return bytes32(_msg);
+    }
 }

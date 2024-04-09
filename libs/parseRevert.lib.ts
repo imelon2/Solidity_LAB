@@ -7,9 +7,9 @@ export const decodeRevert = (errorData:string) : Result => {
     return abiCoder.decode(["string"],"0x" + errorData.substring(10))
 }
 
-export const decodeCustomRevert= (errorData:string,abi:any) :Result => {
+export const decodeCustomRevert= (errorData:string,abi:any)  => {
     const IContract = new ethers.utils.Interface(abi);
-    return IContract.parseError(errorData).args
+    return IContract.parseError(errorData)
 }
 
 export const IS_REVERT = (data:string) : boolean => {

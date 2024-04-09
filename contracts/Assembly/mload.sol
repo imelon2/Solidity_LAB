@@ -1,7 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.20;
 
 contract mloadBytes {
+
+    struct Name {
+        uint256 a;
+        uint256 b;
+    }
+
     function asem_add(bytes memory bytescode,bytes32 a) pure public returns(bytes32) {
         bytes32 result;
         assembly {
