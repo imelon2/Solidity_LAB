@@ -3,7 +3,7 @@ import {abi,bytecode} from "../artifacts/contracts/ERC20/ERC20.sol/MyToken.json"
 
 const GOERLI_RPC = "https://rpc.ankr.com/eth_goerli";
 const MUMBAI_RPC = "https://rpc.ankr.com/polygon_mumbai";
-const PK = "0x972edabc1b1da76e68b2979f31e7fccb66a42fcc21abf18df6a361b2403c818e"
+const PK = ""
 
 async function main() {
     const provider = new ethers.providers.JsonRpcProvider(MUMBAI_RPC);
